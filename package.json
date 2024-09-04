@@ -1,6 +1,6 @@
 {
   "name": "react-native-nvshortvideo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "meicam short video edit",
   "source": "src/index",
   "main": "lib/index.js",

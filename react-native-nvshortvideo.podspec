@@ -25,16 +25,12 @@ Pod::Spec.new do |spec|
   }
   
   spec.subspec 'SourceFiles' do |s|
-    s.source_files = 'ios/Classes/*','ios/Classes/MaterialLibraryRelated/*'
+    s.source_files = 'ios/Classes/*'
     s.public_header_files = 'ios/Classes/*.h'
-    s.resources = 'ios/Assets/*'
   end
   
-  
-  #iOS sdk文件放在Frameworks文件夹下 需要的配置，
-  spec.ios.vendored_frameworks = 'ios/Frameworks/*.framework'
 
-  spec.ios.dependency 'SSZipArchive'
+  spec.ios.dependency 'NvShortVideoEdit'
 
   spec.ios.dependency "React"
 

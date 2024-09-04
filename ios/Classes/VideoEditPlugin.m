@@ -8,7 +8,6 @@
 #import "VideoEditPlugin.h"
 #import <NvShortVideoCore/NvShortVideoCore.h>
 #import "NvHttpRequest.h"
-#import <YYModel/YYModel.h>
 
 #if __has_include("NvSpeechRecognizer.h")
 #import "NvSpeechRecognizer.h"
@@ -50,7 +49,9 @@ RCT_EXPORT_MODULE();
         self.moduleManager.delegate = self;
         self.moduleManager.compileDelegate = self;
         
-        self.moduleManager.netDelegate = [NvHttpRequest sharedInstance];
+        NvHttpRequest *httpRequest = [NvHttpRequest sharedInstance];
+        self.moduleManager.netDelegate = httpRequest;
+        self.moduleManager.webImageDelegate = httpRequest;
         [self.moduleManager prepareDownloadFolders];
         
 #if __has_include("NvSpeechRecognizer.h")
@@ -238,9 +239,13 @@ RCT_EXPORT_METHOD(sendMessageToNative:(NSDictionary *)dic resolve:(RCTPromiseRes
     } else if([methodName isEqualToString:SelectCoverImage]) {
         __weak typeof(self) weakSelf = self;
         [self.moduleManager selectCoverWithNavigationController:nil completionHandler:^(NSString * _Nonnull path) {
+            NSFileManager *fm = [NSFileManager defaultManager];
+            NSString *nFileName = [NSString stringWithFormat:@"%@.jpeg", [NSUUID UUID].UUIDString];
+            NSString *nFilePath = [[path stringByDeletingLastPathComponent] stringByAppendingPathComponent:nFileName];
+            [fm copyItemAtPath:path toPath:nFilePath error:nil];
             [weakSelf sendEventWithName:VideoEditCallbackMethodChannel body:@{
               @"method":DidCoverImageChangedMethod,
-              @"arguments":@{@"coverImagePath":path}
+              @"arguments":@{@"coverImagePath":nFilePath}
             }];
         }];
         completion(nil, nil);
