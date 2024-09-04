@@ -33,7 +33,7 @@ App 需要在 Info.plist 中添加以下权限，否则将无法使用短视频�
 <string>App需要您的同意,才能访问音乐</string>
 ```
 ### Android
-  TODO：在 AndroidManifest.xml 中添加以下权限
+  在 AndroidManifest.xml 中添加以下权限
   ```xml
  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
